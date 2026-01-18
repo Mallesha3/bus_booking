@@ -7,7 +7,7 @@ pipeline {
             steps {
                 cleanWs()
                 git branch: 'feature-1',
-                    url: 'https://github.com/Mallesha3/parcel_service.git'
+                    url: 'https://github.com/Mallesha3/bus_booking.git'
             }
         }
 
