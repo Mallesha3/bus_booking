@@ -3,21 +3,26 @@ pipeline {
 
     environment {
         JAVA_HOME = '/usr/lib/jvm/java-21-openjdk-amd64'
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
+        PATH = "/usr/lib/jvm/java-21-openjdk-amd64/bin:${env.PATH}"
     }
+
 
     stages {
 
-        stage('Verify Java & Maven') {
+        stage('Verify Java Toolchain') {
             steps {
                 sh '''
                     echo "JAVA_HOME=$JAVA_HOME"
+                    echo "PATH=$PATH"
+                    ls -l $JAVA_HOME/bin/java
+                    ls -l $JAVA_HOME/bin/javac
                     java -version
                     javac -version
                     mvn -version
                 '''
             }
         }
+
 
         stage('Checkout') {
             steps {
