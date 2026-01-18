@@ -22,6 +22,7 @@
 
     <!-- Properties -->
     <properties>
+         <revision>1.0-SNAPSHOT</revision>
         <java.version>11</java.version>
     </properties>
 
