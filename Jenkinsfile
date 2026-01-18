@@ -1,12 +1,23 @@
 pipeline {
     agent { label 'Java_Env' }
 
-     environment {
+    environment {
         JAVA_HOME = '/usr/lib/jvm/java-21-openjdk-amd64'
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
     stages {
+
+        stage('Verify Java & Maven') {
+            steps {
+                sh '''
+                    echo "JAVA_HOME=$JAVA_HOME"
+                    java -version
+                    javac -version
+                    mvn -version
+                '''
+            }
+        }
 
         stage('Checkout') {
             steps {
@@ -19,47 +30,23 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
-                    pwd
                     mvn clean install
                 '''
             }
         }
 
         stage('Deploy') {
-    steps {
-        withCredentials([usernamePassword(
-            credentialsId: 'jfrog',
-            usernameVariable: 'JFROG_USER',
-            passwordVariable: 'JFROG_API_KEY'
-        )]) {
-            sh '''
-                mvn clean deploy
-            '''
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'jfrog',
+                    usernameVariable: 'JFROG_USER',
+                    passwordVariable: 'JFROG_API_KEY'
+                )]) {
+                    sh '''
+                        mvn deploy
+                    '''
+                }
+            }
         }
-    }
-}
-        
-//         stage('Run App (5 min)') {
-//     steps {
-//         timeout(time: 5, unit: 'MINUTES') {
-//             sh '''
-//                 java -jar target/simple-parcel-service-app-1.0-SNAPSHOT.jar
-//             '''
-//         }
-//     }
-// }
-        //  stage('Deploy') {
-        //     steps {
-        //         withCredentials([usernamePassword(
-        //             credentialsId: 'jfrog',
-        //             usernameVariable: 'JFROG_USER',
-        //             passwordVariable: 'JFROG_API_KEY'
-        //         )]) 
-        //         sh '''
-        //             mvn clean deploy
-        //         '''
-        //     }
-        // }
-
     }
 }
