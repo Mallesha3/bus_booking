@@ -40,6 +40,16 @@ pipeline {
             }
         }
 
+        stage('Run App (5 min)') {
+    steps {
+        timeout(time: 5, unit: 'MINUTES') {
+            sh '''
+                java -jar target/bus-booking-app-1.0-SNAPSHOT.war
+            '''
+        }
+    }
+}
+
         stage('Deploy') {
             steps {
                 withCredentials([usernamePassword(
