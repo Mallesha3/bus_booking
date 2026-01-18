@@ -1,6 +1,10 @@
 pipeline {
     agent { label 'Java_Env' }
 
+     tools {
+        jdk 'jdk21'
+    }
+
     stages {
 
         stage('Checkout') {
