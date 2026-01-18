@@ -8,6 +8,9 @@
     <artifactId>bus-booking-app</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
+         <properties>
+    <revision>1.0-SNAPSHOT</revision>
+</properties>
 
     <!-- Parent for Spring Boot -->
     <parent>
